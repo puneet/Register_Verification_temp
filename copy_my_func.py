@@ -2,6 +2,9 @@
 from Gnumeric import GnumericError, GnumericErrorVALUE
 import Gnumeric
 import string
+import os
+import time
+import sys
 	
 # Add two numbers together
 def func_add(num1, num2):
@@ -38,7 +41,7 @@ def func_sum(gRange):
 		  
 ##################################################################33
 
-def func_sum2(gRange):
+def func_secmax(gRange):
 	'@FUNCTION=PY_SUM2\n'\
 	'@SYNTAX=PY_SUM2(range)\n'\
 	'@DESCRIPTION=Adds a range of numbers together,'\
@@ -48,6 +51,10 @@ def func_sum2(gRange):
 	'@SEEALSO='
 	col  = Gnumeric.functions['column']   
 	rw  = Gnumeric.functions['row']
+	
+
+	write_path = "/tmp/pipe.in"
+	read_path = "/tmp/pipe.out"
 
 	columns = col(gRange)
 	rows = rw(gRange)
@@ -86,44 +93,24 @@ def func_sum2(gRange):
 	    else: 
 	        if secondmax == mx: 
 	            secondmax = list1[i] 
-	 
-	return secondmax
-	# mx=max(list1[0],list1[1])  
-	# secondmax=min(list1[0],list1[1])  
-	# n =len(list1) 
-	# for i in range(2,n):  
-	#     if list1[i]>mx:  
-	#         secondmax=mx 
-	#         mx=list1[i]  
-	#     elif list1[i]>secondmax and mx != list1[i]:  
-	#         secondmax=list1[i] 
-	#     else: 
-	#         if secondmax == mx: 
-	#             secondmax = list1[i] 
-	# return secondmax
-
-	# st = str(columns[0][:])
-	
-	# ast = columns[l-1][0]
-	
-	# return ast
-	# try:
-	# 	[r_begin, r_end] = range_ref_to_tuples(gRange)
-	# 	wb=Gnumeric.workbooks()[0]   # Careful! This is WRONG! It doesn't
-	# 	s=wb.sheets()[0]             # use the ACTUAL workbook or sheet.
-
-	# 	val = 0
-	# 	for col in range(r_begin[0], r_end[0]):
-	# 		for row in range(r_begin[1], r_end[1]):
-	# 			cell = s[col, row]
-	# 			val = val + cell.get_value()
-	# 			# Note: this doesn't skip blank cells etc.
-
-	# except TypeError:
-	# 	raise GnumericError,GnumericErrorVALUE
-	# else:
-	# 	return val
 		
+	#
+	wf = os.open(write_path, os.O_SYNC | os.O_CREAT | os.O_RDWR)
+	rf = None
+	msg = str(secondmax)
+	os.write(wf,msg)
+	print("sent msg: ",msg)
+ # 	if rf is None:
+	#     rf = os.open(read_path, os.O_RDONLY)
+ 
+	# s = os.read(rf, 1024)
+	# if len(s) != 0:
+	# 	print ("\n")
+	# else:
+	# 	os.write(wf, 'exit')
+ # 	os.close(rf)
+	# os.close(wf)
+	return secondmax
 
 
 ###########################################################################
@@ -136,5 +123,5 @@ example_functions = {
     'py_add': ('ff','num1,num2',func_add),
     'py_sub': func_sub,
     'py_sum': ('r', 'values', func_sum),
-    'py_sum2': ('r','values',func_sum2)
+    'py_secmax': ('r','values',func_secmax)
 }
