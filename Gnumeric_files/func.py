@@ -1,1 +1,1 @@
-/home/utkarsh/.gnumeric/1.12.46/plugins/myfuncs/my_func.py
+/home/utk/.gnumeric/1.12.46/plugins/myfunc/my_func.py
