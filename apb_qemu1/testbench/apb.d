@@ -4,7 +4,7 @@ import std.stdio;
 import std.string: format;
 import std.bitmanip: swapEndian;
 ///////////////
-//import std.file;
+import std.file;
 // /// // ///////
 import std.socket;
 
@@ -275,8 +275,9 @@ class apb_fifo_seq(uint ADDRW, uint DATAW): apb_seq!(ADDRW, DATAW)
     uvm_info("APB SEQ", format("\n%s", req.sprint()), UVM_DEBUG);
     writeln("I AM HERE");
     _data = req.data; 
-    //File rdata = File("data.txt","w");
-    //rdata.writeln("Data sample");
+    File rdata = File("/home/utk/Intern_Project/Register_Verification/apb_qemu1/testbench/data.txt","a+");
+    rdata.writeln(_data);
+    @trusted void flush();
     //string line = rdata.readln();
     //writeln(line);
     //rdata.close();
