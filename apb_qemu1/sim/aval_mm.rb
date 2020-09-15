@@ -25,7 +25,7 @@ class Aval_mm
     op=WRITE;
     data_len = 4;
     request = ([endian, pkt_len, @version, @id, op, 0, data_len, address] + wdata).pack("CLSLCLLQL")
-    puts request.inspect
+    puts "Write: #{request.inspect}"
     print "Write Request => "
     p [endian, pkt_len, @version, @id, op, 0, data_len, address] + wdata
     @fifo.print(request)
@@ -41,7 +41,7 @@ class Aval_mm
     op = READ;
     data_len = 0;
     request = [endian, pkt_len, @version, @id, op, 0, data_len, address].pack("CLSLCLLQ")
-    puts request.inspect
+    puts "Read: #{request.inspect}"
     print"Read Request =>  "
     p [endian, pkt_len, @version, @id, op, 0, data_len, address]
     @fifo.print(request)
@@ -64,7 +64,7 @@ class Aval_mm
 end
 
 mm = Aval_mm.new
-# mm.read(0x24);
+mm.read(0x2C);
 # mm.read(0x20);
 # sleep(2)
 # mm.write(0x20, 0x55);
@@ -80,10 +80,10 @@ mm = Aval_mm.new
 # sleep(2)
 # mm.read(0x28);
 # sleep(2)
-for i in 0..256 do
-  mm.write(0x2C, i);
-  mm.read(0x2C);
-end
+# for i in 0..1 do
+  # mm.write(0x2C, 0x50);
+  # mm.read(0x2C);
+# end
 # mm.read(0x28);
 # sleep(2)
 # mm.read(0x20);

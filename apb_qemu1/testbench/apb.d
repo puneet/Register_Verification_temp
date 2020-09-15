@@ -3,7 +3,9 @@ import uvm;
 import std.stdio;
 import std.string: format;
 import std.bitmanip: swapEndian;
-
+///////////////
+//import std.file;
+// /// // ///////
 import std.socket;
 
 import esdl.intf.hal;
@@ -269,11 +271,15 @@ class apb_fifo_seq(uint ADDRW, uint DATAW): apb_seq!(ADDRW, DATAW)
     // apb32_rw cloned = cast(apb_rw) req.clone;
     start_item(req);
     finish_item(req);
-
+    
     uvm_info("APB SEQ", format("\n%s", req.sprint()), UVM_DEBUG);
-    
-    _data = req.data;
-    
+    writeln("I AM HERE");
+    _data = req.data; 
+    //File rdata = File("data.txt","w");
+    //rdata.writeln("Data sample");
+    //string line = rdata.readln();
+    //writeln(line);
+    //rdata.close();
     // uvm_info("apb_rw", "Finishing sequence", UVM_MEDIUM);
   } // body
 
