@@ -31,10 +31,10 @@ class Aval_mm:
 		data_len = 4
 		print(" ",wdata,address)
 		request = pack("=BIHIBIIQI",endian,pkt_len,self.version,self.id,op,0,data_len,address,wdata[0])
-		print(" ",pack("=BIHIBIIQI",endian,pkt_len,self.version,self.id,op,0,data_len,address,wdata[0]),"\n")
-		print("\nWrite:  ", request)
+		print(pack("=BIHIBIIQI",endian,pkt_len,self.version,self.id,op,0,data_len,address,wdata[0]))
+		print("Write:  ", request)
 		request = str(request,'Latin-1')
-		print("\nWrite Request => ", [endian, pkt_len, self.version, self.id, op, 0, data_len, address, wdata[0]])
+		print("Write Request => ", [endian, pkt_len, self.version, self.id, op, 0, data_len, address, wdata[0]])
 		self.fifo.write(request)
 		self.fifo.flush()
 		fi.flush()
@@ -42,20 +42,20 @@ class Aval_mm:
 		time.sleep(1)
 
 		Lines = ff_rd.readlines()
-		print("\n ",Lines[-1].strip())
+		print(Lines[-1].strip())
 
-		print("\n ",type(Lines[-1].strip()))
-		print("\n ",int(Lines[-1].strip(),16))
+		print(type(Lines[-1].strip()))
+		print(int(Lines[-1].strip(),16))
 
 		# read_value = int(str(int(Lines[-1].strip())),16)
 		read_value = int(Lines[-1].strip(),16)
-		print("\n ", wdata[0]," ",read_value)
+		print(" ", wdata[0]," ",read_value)
 		if read_value == wdata[0]:
 			os.write(vfwt,int.to_bytes(1,1,byteorder='big',signed=False))
-			print("\nWritten: ",int.to_bytes(1,1,byteorder='big',signed=False))
+			print("Written: ",int.to_bytes(1,1,byteorder='big',signed=False))
 		else:
 			os.write(vfwt,int.to_bytes(0,1,byteorder='big',signed=False))
-			print("\nNot Written: ",int.to_bytes(0,1,byteorder='big',signed=False))
+			print("Not Written: ",int.to_bytes(0,1,byteorder='big',signed=False))
 
 
 	def read(self,address):
@@ -65,9 +65,9 @@ class Aval_mm:
 		op =self.READ
 		data_len =0
 		request = pack("=BIHIBIIQ",endian,pkt_len,self.version,self.id,op,0,data_len,address)
-		print("\nRead:  ", request)
+		print("Read:  ", request)
 		request = str(request,'Latin-1')
-		print("\nRead request => ", [endian, pkt_len, self.version, self.id, op, 0, data_len, address])
+		print("Read request => ", [endian, pkt_len, self.version, self.id, op, 0, data_len, address])
 		self.fifo.write(request)
 		self.fifo.flush()
 		fi.flush()
@@ -76,9 +76,9 @@ class Aval_mm:
 		Lines = ff_rd.readlines()
 		# read_value = int(str(int(Lines[-1].strip())),16)
 		read_value = int(Lines[-1].strip(),16)
-		print("\nRead Value: ",read_value)
+		print("Read Value: ",read_value)
 		os.write(vfrd,int.to_bytes(read_value,4,byteorder='big',signed=False))
-		print("\nWritten read data: ", int.to_bytes(read_value,4,byteorder='big',signed=False))
+		print("Written read data: ", int.to_bytes(read_value,4,byteorder='big',signed=False))
 		# time.sleep(1)
 
 
@@ -88,14 +88,14 @@ class Aval_mm:
 		op = self.DONE;
 		request = pack("=BIHIB",endian,pkt_len,self.version,self.id, op)
 		request = str(request,'Latin-1')
-		print("\nTerm Request => ", [endian, pkt_len, self.version, self.id, op])
+		print("Term Request => ", [endian, pkt_len, self.version, self.id, op])
 		self.fifo.write(request)
 		fi.flush()
 		self.fifo.flush()
 		self.id += 1
 
 		
-apb_fifo = "/home/utk/Intern_Project/Register_Verification/apb_qemu/sim/qemu_apb_req.fifo"
+apb_fifo = "qemu_apb_req.fifo"
 fifo_read = "/home/utk/Intern_Project/Register_Verification/apb_qemu/testbench/data.txt"
 
 writeval_path = "/tmp/pipewrite.in"
@@ -133,14 +133,14 @@ while True:
 	if ope == 1:#Write
 		addr = int(s[1],16)
 		data = int(s[2],16)
-		print (f"\nAddress:{addr} and Data:{data}")
+		print (f"Address:{addr} and Data:{data}")
 		mm.write(addr,data)
 		# time.sleep(1)
 		# mm.read(0x2C)
 		# break
 	elif ope == 0:#Read
 		addr = int(s[1],16)
-		print(f"\nReaf Addr:{hex(addr)}")
+		print(f"Reaf Addr:{hex(addr)}")
 		mm.read(addr)
 # for i in range(0,12):
 	# mm.write(0x2C, i)
