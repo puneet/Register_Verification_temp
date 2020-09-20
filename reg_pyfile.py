@@ -102,9 +102,10 @@ class Aval_mm(object):
 		endian=0x0f;
 		op = self.DONE;
 		request = pack("=BIHIB",endian,pkt_len,self.version,self.id, op)
-		request = str(request,'Latin-1')
-		self.fifo.write(request)
-		self.fifo.flush()
+		# request = str(request,'Latin-1')
+		request = request.decode(encoding='Latin-1')
+		fifo.write(request)
+		fifo.flush()
 		self.id += 1
 
 
@@ -154,10 +155,18 @@ def read_val(address):
 	resp = mm.read(address)
 	return resp
 
+def exit_sim():
+	wb = Gnumeric.workbooks()[0] 
+	s  = wb.sheets()[1]
+	mm = Aval_mm()
+	mm.ctrl_command()
+
+
 # Translate the func_add python function to a gnumeric function and register it
 example_functions = {
     'py_write': write_val,
-    'py_read': read_val
+    'py_read': read_val,
+    'py_exit':exit_sim
 }
 
 
