@@ -25,8 +25,8 @@ $cp path/to/your/working/directory/Register_Verification/Gnumeric_files/reg_gnfu
 $cp path/to/your/working/directory/Register_Verification/Gnumeric_files/my_link.xml /home/user/.gnumeric/(version)/plugins/myfuncs/plugin.xml
 ```
 
-3. Change the current directory to the following:
-`$cd path/to/your/working/directory/Register_Verification/apb_qemu/sim/`
+3. Change the current directory to the following: `$cd path/to/your/working/directory/Register_Verification/apb_qemu/sim/` 
+
 You can see various files in this directory.<br/>
 3.1 To compile and run the Simulation, open terminal in this directory and run following commands:
 ```
@@ -35,7 +35,7 @@ make
 make run 
 ```
 
- **Note**: Make sure that EUVM is in your PATH `/home/user/Intern_Project/euvm-1.0-beta14/bin`:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+ **Note**: Make sure that EUVM is in your PATH, `echo $PATH` = `/home/user/Intern_Project/euvm-1.0-beta14/bin`:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
  
  4. Now to pass write/read values to simulation, open `reg.gnumeric` file which is in the `/sim/` directory. It will look as follows (you can still edit as per your wish): <br/>
  ![alt text](https://github.com/utkarshb1/Register_Verification/blob/master/reg.png?raw=true)
