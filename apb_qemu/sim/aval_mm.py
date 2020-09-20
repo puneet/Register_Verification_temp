@@ -1,6 +1,12 @@
+#!/usr/bin/env python
+# -*- coding: latin-1 -*-
 from struct import *
-import time
+import string
 import os
+import time
+
+
+
 class Aval_mm:
 
 	WRITE=0

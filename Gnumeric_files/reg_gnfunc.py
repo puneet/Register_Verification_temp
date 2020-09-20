@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: latin-1 -*-
 from Gnumeric import GnumericError, GnumericErrorVALUE
 import Gnumeric
 import string
@@ -5,7 +7,8 @@ import os
 import time
 import sys
 from struct import *
-import sys
+print(sys.version)
+# import sys
 reload(sys)
 sys.setdefaultencoding('latin-1')
 
@@ -42,7 +45,7 @@ class Aval_mm(object):
 
 
 	def write(self,address,data):
-		print("1")
+		# print("1")
 		address = int(str(address),16)
 		# wdata = int(data,16)
 		pkt_len = 16
@@ -51,20 +54,20 @@ class Aval_mm(object):
 		data_len = 4
 		# print("before packing")
 		# print(address,"",data)
-		print("2")
+		# print("2")
 		request = pack("=BIHIBIIQI",endian,pkt_len,self.version,self.id,op,0,data_len,address,data)
 		# print("after packing")
 		# request = str(request,'Latin-1')
-		print("3")
+		# print("3")
 		request = request.decode(encoding='Latin-1')
 		# print "Write Request => ", [endian, pkt_len, self.version, self.id, op, 0, data_len, address, data]
-		print("4")
+		# print("4")
 		fifo.write(request)
 		fifo.flush()
 		self.id += 1
 		time.sleep(1)
 		Lines = ffrd.readlines()
-		print("5")
+		# print("5")
 		read_value = int(Lines[-1].strip(),16)
 		if read_value == data:
 			# print("\nWrite Done")
@@ -74,7 +77,7 @@ class Aval_mm(object):
 
 
 	def read(self,address):
-		print("Read: ",self.id)
+		# print("Read: ",self.id)
 		address = int(str(address),16)
 		pkt_len=12
 		endian=0x0f
@@ -120,7 +123,7 @@ def write_val(address,wdata):
 	wb = Gnumeric.workbooks()[0] 
 	s  = wb.sheets()[1]
 	addr = int(address,16)
-	print(addr)
+	# print(addr)
 	data = int(wdata,16)
 	mm = Aval_mm()
 	if flag == True:
@@ -158,3 +161,4 @@ example_functions = {
 }
 
 
+ 
