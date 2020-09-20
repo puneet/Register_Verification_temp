@@ -44,4 +44,4 @@ Now in an empty cell write function `=py_write(address,data)` where address and 
 
 To read the value from an address, write function `=py_read(Address)` in any empty cell and pass the Cell value to read the data present at that address
 
-5. After you're done with simulation, write function `=py_exit()` in any empty cell to stop the Simulation.
+5. After you're done with the simulation, write function `=py_exit()` in any empty cell to stop the Simulation.
