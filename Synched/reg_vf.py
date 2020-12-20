@@ -190,37 +190,6 @@ def check(gRange):
 	print ar
 		
 
-	# print('here')
-	# colnum = col(addr)
-	# rownum = rw('row',addr)
-	# # ty =type(rownum)
-	# # print'Col: ', rownum
-	# print type(colnum)
-# , ' Row: ',rownum
-
-# def range_ref_to_tuples(range_ref):
-# 	col  = Gnumeric.functions['column']   
-# 	row  = Gnumeric.functions['row']
-
-# 	# "column" and "row" take references and return an array of col or row
-# 	# nums for each cell in the reference. For example, [[1, 1, 1], [2, 2, 2]]
-# 	# for columns and [[2, 3, 4], [2, 3, 4]] for rows.
-# 	columns = col(range_ref)
-# 	rows    = row(range_ref)
-
-# 	begin_col = columns[0][0] - 1  
-# 	begin_row = rows[0][0] - 1     
-
-# 	end_col = columns[-1][-1]
-# 	end_row = rows[-1][-1]
-
-# 	# We subtracted 1 from the begin values because in the API,
-# 	# indexing begins at 0, while "column" and "row" begin at 1.
-# 	# We did NOT subtract 1 from the end values, in order to make
-# 	# them suitable for Python's range(begin, end) paradigm.
-# 	return [ (begin_col, end_col), begin_row ]
-
-
 # Translate the func_add python function to a gnumeric function and register it
 example_functions = {
     'py_write': write_val,
@@ -230,4 +199,6 @@ example_functions = {
 }
 
 
- 
+ # RUN THIS BEFORE COMMITING TO GIT
+ # sync -avu /home/utk/.gnumeric/1.12.46/plugins/myfunc/*
+ # /home/utk/Intern_Project/Register_Verification/Synched/
