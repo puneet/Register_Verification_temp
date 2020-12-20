@@ -1,0 +1,1 @@
+/home/utk/.gnumeric/1.12.46/plugins/myfunc/reg_vf.py

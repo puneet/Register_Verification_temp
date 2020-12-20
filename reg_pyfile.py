@@ -161,12 +161,23 @@ def exit_sim():
 	mm = Aval_mm()
 	mm.ctrl_command()
 
+def check(addr):
+	wb = Gnumeric.workbooks()[0] 
+	s  = wb.sheets()[1]
+	col  = Gnumeric.functions['column']   
+	rw  = Gnumeric.functions['row']
+	colnum = col(addr)
+	rownum = rww(addr)
+	print('Col: ', colnum, ' Row: ',rownum)
+
+
 
 # Translate the func_add python function to a gnumeric function and register it
 example_functions = {
     'py_write': write_val,
     'py_read': read_val,
-    'py_exit':exit_sim
+    'py_exit':exit_sim,
+    'py_check': check
 }
 
 
