@@ -161,36 +161,42 @@ def exit_sim():
 	s  = wb.sheets()[1]
 	mm = Aval_mm()
 	mm.ctrl_command()
-
-def val_check(gRange):
-	
+i = 1
+def val_check(cell_range):
+	global i
+	print i
+	i +=1
 	col  = Gnumeric.functions['column']   
 	rw  = Gnumeric.functions['row'] 
 	wb = Gnumeric.workbooks()[0] 
 	s  = wb.sheets()[0]
-	columns = col(gRange)
-	rows = rw(gRange)
-	pdb.set_trace()
-	if len(str(rows)) == 3:
-		n1 = int(rows)-1
-		n2= n1
-	else:
-		n1 = int(rows[0][0])-1;n2 = int(rows[-1][0])-1
+	columns = col(cell_range)
+	rows = rw(cell_range)
+	print rows, columns
+	# # pdb.set_trace()
+	# if len(str(rows)) == 3:
+	# 	n1 = int(rows)-1
+	# 	n2= n1
+	# else:
+	# 	n1 = int(rows[0][0])-1;n2 = int(rows[-1][0])-1
 
-	if len(str(columns)) == 3:
-		m1 = int(columns)-1
-		m2 = m1
-	else:
-		m1 = int(columns[0][0])-1;m2 = int(columns[-1][0])-1
+	# if len(str(columns)) == 3:
+	# 	m1 = int(columns)-1
+	# 	m2 = m1
+	# else:
+	# 	m1 = int(columns[0][0])-1;m2 = int(columns[-1][0])-1
 
-	# print m1,m2
-	ar = []
-	for val in range(m1,m2+1):
-		cell = s[val,n1]
-		num = cell.get_value()
-		ar.append(num)
-	print ar
-		
+	# # print m1,m2
+	# ar = []
+	# for val in range(m1,m2+1):
+	# 	cell = s[val,n1]
+	# 	# print cell
+	# 	num = cell.get_value()
+	# 	print num
+	# 	ar.append(num)
+	# print ar
+	# del ar
+	return 'DONE'
 
 # Translate the func_add python function to a gnumeric function and register it
 example_functions = {
