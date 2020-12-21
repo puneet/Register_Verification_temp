@@ -11,11 +11,12 @@ print(sys.version)
 # import sys
 reload(sys)
 sys.setdefaultencoding('latin-1')
+import pdb
 
 class Aval_mm(object):
 
 	WRITE=0
-	READ=1
+	READ=1	
 	IDLE=2
 	DONE=3
 	WRITE_RSP=4
@@ -30,7 +31,7 @@ class Aval_mm(object):
 	fifo_read = "/home/utk/Intern_Project/Register_Verification/apb_qemu/testbench/data.txt"
 
 
-	"""docstring for Aval-mm"""
+	# """docstring for Aval-mm"""
 	def __init__(self,address = 0,data = 0,id = 0, version = 1):
 		self.id=id
 		self.version=version
@@ -161,14 +162,15 @@ def exit_sim():
 	mm = Aval_mm()
 	mm.ctrl_command()
 
-def check(gRange):
-	wb = Gnumeric.workbooks()[0] 
-	s  = wb.sheets()[0]
+def val_check(gRange):
+	
 	col  = Gnumeric.functions['column']   
 	rw  = Gnumeric.functions['row'] 
+	wb = Gnumeric.workbooks()[0] 
+	s  = wb.sheets()[0]
 	columns = col(gRange)
 	rows = rw(gRange)
-
+	pdb.set_trace()
 	if len(str(rows)) == 3:
 		n1 = int(rows)-1
 		n2= n1
@@ -181,7 +183,7 @@ def check(gRange):
 	else:
 		m1 = int(columns[0][0])-1;m2 = int(columns[-1][0])-1
 
-	print m1,m2
+	# print m1,m2
 	ar = []
 	for val in range(m1,m2+1):
 		cell = s[val,n1]
@@ -195,10 +197,9 @@ example_functions = {
     'py_write': write_val,
     'py_read': read_val,
     'py_exit':exit_sim,
-    'py_check': check
+    'py_check': val_check
 }
 
 
  # RUN THIS BEFORE COMMITING TO GIT
- # sync -avu /home/utk/.gnumeric/1.12.46/plugins/myfunc/*
- # /home/utk/Intern_Project/Register_Verification/Synched/
+ # sync -avu /home/utk/.gnumeric/1.12.46/plugins/myfunc/* /home/utk/Intern_Project/Register_Verification/Synched/
