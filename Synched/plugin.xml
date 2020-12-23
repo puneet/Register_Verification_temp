@@ -16,10 +16,11 @@
 				<function name="py_sub"/>
 				<function name="py_sum"/>
 				<function name="py_secmax"/> -->
-				<function name="py_write"/>
-				<function name='py_read'/>
+				<!-- <function name="py_write"/> -->
+				<!-- <function name='py_read'/> -->
 				<function name='py_exit'/>
 				<function name='py_check'/>
+				<function name='py_sub'/>
 			</functions>
 		</service>
 	</services>

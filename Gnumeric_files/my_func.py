@@ -15,10 +15,14 @@ def func_add(num1, num2):
     '@EXAMPLES=To add two constants, just type them in: py_add(2,3)\n'\
     'To add two cells, use the cell addresses: py_add(A1,A2)\n\n'\
     '@SEEALSO='
+    vl = num1 + num2
+    print vl
     return num1 + num2
-###################################################################33
+###################################################################
 # Subtract two numbers together
 def func_sub(num1, num2):
+    vl = num1 - num2
+    print vl
     return num1 - num2
 ###################################################################
 #Add a range of numbers
