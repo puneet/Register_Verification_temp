@@ -193,6 +193,7 @@ def val_check(cell_range):
 			data  = int(ar[7])
 			write_val(addr,data)
 			return 'DONE' 
+	#######3#################################################
 	elif ar[0].lower()[0:5] == 'field':
 		# pdb.set_trace()
 		a = 'RO' in  str(ar)
@@ -259,4 +260,4 @@ example_functions = {
 
 
  # RUN THIS BEFORE COMMITING TO GIT
- # sync -avu /home/utk/.gnumeric/1.12.46/plugins/myfunc/* /home/utk/Intern_Project/Register_Verification/Synched/
+ # rsync -avu /home/utk/.gnumeric/1.12.46/plugins/myfunc/* /home/utk/Intern_Project/Register_Verification/Synched/
