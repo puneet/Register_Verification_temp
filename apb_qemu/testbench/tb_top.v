@@ -1,6 +1,6 @@
 module tb_top();
    parameter integer DATAW = 32;
-   parameter integer ADDRW = 8;
+   parameter integer ADDRW = 32;
    /*AUTOWIRE*/
    // Beginning of automatic wires (for undeclared instantiated-module outputs)
    wire [DATAW-1:0]	prdata;			// From u_apb_slave of apb_slave.v
@@ -17,9 +17,9 @@ module tb_top();
    // End of automatics
     			    
   			    
-   reg [7:0] 	    _paddr;
+   reg [32:0] 	    _paddr;
    reg [7:0] 	    _op;
-   reg [7:0] 	    _pdata;
+   reg [32:0] 	    _pdata;
    reg              _retval;
 
    apb_slave u_apb_slave(/*AUTOINST*/
@@ -53,8 +53,8 @@ module tb_top();
       #50 rst_n = 1'b1;
    end
 
-   task write_apb(input [7:0] addr,
-	      input [7:0] data);
+   task write_apb(input [31:0] addr,
+	      input [31:0] data);
       begin
 	 @(negedge clk);
 	 paddr <= addr;
@@ -69,7 +69,7 @@ module tb_top();
       end
    endtask // write
 
-    task read_apb(input [7:0] addr);
+    task read_apb(input [31:0] addr);
        begin
 	  @(negedge clk);
 	  paddr <= addr;

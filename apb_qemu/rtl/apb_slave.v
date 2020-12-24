@@ -1,4 +1,4 @@
-module apb_slave #(parameter ADDRW = 8, DATAW = 32)
+module apb_slave #(parameter ADDRW = 32, DATAW = 32)
   (
   input 		   clk,
   input 		   rst_n,
@@ -65,16 +65,16 @@ module apb_slave #(parameter ADDRW = 8, DATAW = 32)
       apb_st <= 0;
       prdata <= 0;
       reg1_f1 <= 2'b0;
-      reg1_f2 <= 1;
-      reg1_f3 <= 1;
+      reg1_f2 <= 1'd1;
+      reg1_f3 <= 1'd1;
       reg1_f4 <= 0;
       reg2_f1 <= 0;
       reg2_f2 <= 0;
-      reg2_f3 <= 1;
-      reg3_f1 <= 1;
+      reg2_f3 <= 1'd1;
+      reg3_f1 <= 1'd1;
       reg3_f2 <= 0;
       reg3_f3 <= 0;
-      reg4_f1 <= 1;
+      reg4_f1 <= 1'd1;
       reg4_f2 <= 16'd66;
       reg5_f1 <= 0;
       reg6_f1 <= 0;
@@ -83,15 +83,15 @@ module apb_slave #(parameter ADDRW = 8, DATAW = 32)
       reg6_f4 <= 13'd3072;
       reg6_f5 <= 6'd36;
       reg7_f1 <= 0;
-      reg7_f2 <= 1;
-      reg7_f3 <= 1;
+      reg7_f2 <= 1'd1;
+      reg7_f3 <= 1'd1;
       reg8_f1 <= 0;
       reg8_f2 <= 0;
       reg9_f1 <= 0;
       reg9_f2 <= 0;
       reg9_f3 <= 0; 
-      reg10_f1 <= 1;
-      reg10_f2 <= 1;
+      reg10_f1 <= 1'd1;
+      reg10_f2 <= 1'd1;
       reg10_f3 <= 30'd32;
     end
     else begin
