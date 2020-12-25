@@ -133,6 +133,7 @@ def exit_sim():
 	mm.ctrl_command()
 
 def get_field(cell_range):
+	# pdb.set_trace()
 	global n1,m1,m2,wb,s
 	col  = Gnumeric.functions['column']   
 	rw  = Gnumeric.functions['row'] 
@@ -151,168 +152,184 @@ def get_field(cell_range):
 		cell = s[val,n1]
 		num = cell.get_value()
 		ar.append(num)
+	print ar
 	return ar
 
 def reg_write(cell_range):
 	ar = get_field(cell_range)
 	############################################################
-	if ar[0] == None:
-		return 'INVALID FIELD'
-	else:
-		if ar[0].lower()[0:8] == 'register':
-			field_ar = []
-			rw = n1+1
-			fg =True
-			while fg == True:
-				f_cell = s[m1,rw]
-				f_name = f_cell.get_value()
-				field_temp = []
-				if f_name == None:
+	if ar[0].lower()[0:8] == 'register':
+		field_ar = []
+		rw = n1+1
+		fg =True
+		while fg == True:
+			f_cell = s[m1,rw]
+			f_name = f_cell.get_value()
+			field_temp = []
+			if f_name == None:
+				f_name = None
+				fg = False
+			else:
+				f_name = f_name.lower()
+				print f_name
+				if f_name[0:5] == 'field':
+					for v in range(m1,m2+1):
+						f_cell_temp = s[v,rw]
+						f_data = f_cell_temp.get_value()
+						field_temp.append(f_data)
+					print field_temp
+					field_ar.append(field_temp)	
+				else: 
 					fg = False
-					# return 'INVALID FILED'
-				else:
-					f_name = f_name.lower()
-					if f_name[0:5] == 'field':
-						for v in range(m1,m2+1):
-							f_cell_temp = s[v,rw]
-							f_data = f_cell_temp.get_value()
-							field_temp.append(f_data)
-						field_ar.append(field_temp)	
-					else: 
-						fg = False
-					rw += 1
-			a = 'RO' in str(field_ar)
-			if a == True:
-				return 'RO fields present, write to reg not permitted'
-			else:
-				addr = int(str(ar[2]),16)
-				data  = int(ar[7])
-				write_val(addr,data)
-				return 'DONE' 
-		########################################################
-		elif ar[0].lower()[0:5] == 'field':
-			a = 'RO' in  str(ar)
-			if a == True:
-				return 'RO field, cannot write'
-			else:
-				data  = int(ar[7])
-				fg = True
-				i = n1-1
-				while fg == True:
-					cell = s[m1+2,i]
-					val = cell.get_value()
-					if val != None:
-						addr = int(val,16)
-						fg = False
-					else:
-						i -= 1
-				read_data = read_val(addr)
-				read_data = "{0:032b}".format(int(read_data, 16))
-				if len(str(ar[4])) <= 4 :
-					end = 32 - int(ar[4])
-					data = list(bin(data).lstrip('0b'))
-					temp_data = list(read_data)
-					if len(data) == 0:
-						temp_data[end-1] = '0'
-					else:
-						temp_data[end-1] = data[0]
-					read_data = "".join(temp_data)
-					read_data = int(read_data,2)
-					write_val(addr,read_data)
-					return 'DONE'
-
-				else:
-					st1 = (ar[4].strip('[]')).split(':')
-					start = 32 - int(st1[0])
-					end = 32 - int(st1[1])
-					data_bin = bin(data).lstrip('0b')
-					data_bin = '0'*(end-start+1-len(data_bin)) + data_bin
-					data = list(data_bin)
-					temp_data = list(read_data)
-					temp_data[start-1:end] = data
-					read_data = "".join(temp_data)
-					read_data = int(read_data,2)
-					write_val(addr,read_data)
-					return 'DONE' 
+				rw += 1
+		# print field_ar
+		a = 'RO' in str(field_ar)
+		if a == True:
+			return 'RO fields present, write to reg not permitted'
 		else:
-			return "INVALID FIELD"
+			addr = int(str(ar[2]),16)
+			data  = int(ar[7])
+			# print "Reg write: ","{0:032b}".format(data)
+			write_val(addr,data)
+			return 'DONE' 
+	########################################################
+	elif ar[0].lower()[0:5] == 'field':
+		a = 'RO' in  str(ar)
+		if a == True:
+			return 'RO field, cannot write'
+		else:
+			data  = int(ar[7])
+			fg = True
+			i = n1-1
+			while fg == True:
+				cell = s[m1+2,i]
+				val = cell.get_value()
+				if val != None:
+					addr = int(val,16)
+					fg = False
+				else:
+					i -= 1
+			read_data = read_val(addr)
+			read_data = "{0:032b}".format(int(read_data, 16))
+			# print read_data
+			# pdb.set_trace()
+			if len(str(ar[4])) <= 4 :
+				end = 32 - int(ar[4])
+				data = list(bin(data).lstrip('0b'))
+				temp_data = list(read_data)
+				if len(data) == 0:
+					temp_data[end-1] = '0'
+				else:
+					temp_data[end-1] = data[0]
+				read_data = "".join(temp_data)
+				read_data = int(read_data,2)
+				# print read_data
+				write_val(addr,read_data)
+				return 'DONE'
+
+			else:
+				# pdb.set_trace()
+				print ar[4]
+				st1 = (ar[4].strip('[]')).split(':')
+				start = 32 - int(st1[0])
+				end = 32 - int(st1[1])
+				# print end
+				# data = list(bin(data).lstrip('0b'))
+
+				data_bin = bin(data).lstrip('0b')
+				data_bin = '0'*(end-start+1-len(data_bin)) + data_bin
+				data = list(data_bin)
+				# print data
+				temp_data = list(read_data)
+				temp_data[start-1:end] = data
+				read_data = "".join(temp_data)
+				# print read_data
+				read_data = int(read_data,2)
+				# print read_data
+				write_val(addr,read_data)
+				return 'DONE' 
 
 def reg_read(cell_range):
 	ar = get_field(cell_range)
 	############################################################
-	if ar[0] == None:
-		return 'INVALID FIELD'
-		if ar[0].lower()[0:8] == 'register':
-			field_ar = []
-			rw = n1+1
-			fg =True
+	if ar[0].lower()[0:8] == 'register':
+		field_ar = []
+		rw = n1+1
+		fg =True
+		while fg == True:
+			f_cell = s[m1,rw]
+			f_name = f_cell.get_value()
+			field_temp = []
+			if f_name == None:
+				f_name = None
+				fg = False
+			else:
+				f_name = f_name.lower()
+				print f_name
+				if f_name[0:5] == 'field':
+					for v in range(m1,m2+1):
+						f_cell_temp = s[v,rw]
+						f_data = f_cell_temp.get_value()
+						field_temp.append(f_data)
+					print field_temp
+					field_ar.append(field_temp)	
+				else: 
+					fg = False
+				rw += 1
+		# print field_ar
+		a = 'WO' in str(field_ar)
+		if a == True:
+			return 'WO fields present, reead from reg not permitted'
+		else:
+			addr = int(str(ar[2]),16)
+			read_data = read_val(addr)
+			# print read_data
+			return 'DATA: ' + str(read_data)
+	########################################################
+	elif ar[0].lower()[0:5] == 'field':
+		# pdb.set_trace()
+		a = 'WO' in  str(ar)
+		if a == True:
+			return 'WO field, cannot read'
+		else:
+			fg = True
+			i = n1-1
 			while fg == True:
-				f_cell = s[m1,rw]
-				f_name = f_cell.get_value()
-				field_temp = []
-				if f_name == None:
+				cell = s[m1+2,i]
+				val = cell.get_value()
+				if val != None:
+					addr = int(val,16)
 					fg = False
 				else:
-					f_name = f_name.lower()
-					if f_name[0:5] == 'field':
-						for v in range(m1,m2+1):
-							f_cell_temp = s[v,rw]
-							f_data = f_cell_temp.get_value()
-							field_temp.append(f_data)
-						field_ar.append(field_temp)	
-					else: 
-						fg = False
-					rw += 1
-			a = 'WO' in str(field_ar)
-			if a == True:
-				return 'WO fields present, reead from reg not permitted'
-			else:
-				addr = int(str(ar[2]),16)
-				read_data = read_val(addr)
-				return 'DATA: ' + str(read_data)
-		########################################################
-		elif ar[0].lower()[0:5] == 'field':
-			a = 'WO' in  str(ar)
-			if a == True:
-				return 'WO field, cannot read'
-			else:
-				fg = True
-				i = n1-1
-				while fg == True:
-					cell = s[m1+2,i]
-					val = cell.get_value()
-					if val != None:
-						addr = int(val,16)
-						fg = False
-					else:
-						i -= 1
-				read_data = read_val(addr)
-				read_data = "{0:032b}".format(int(read_data, 16))
-				
-				if len(str(ar[4])) <= 4 :
-					end = 32 - int(ar[4])
-					temp_data = list(read_data)
-					data = temp_data[end-1] 
-					read_data = "".join(data)
-					read_data = int(read_data,2)
-					print read_data
-					return 'DATA: '+str(read_data)
+					i -= 1
+			read_data = read_val(addr)
+			read_data = "{0:032b}".format(int(read_data, 16))
+			
+			if len(str(ar[4])) <= 4 :
+				end = 32 - int(ar[4])
+				# data = list(bin(data).lstrip('0b'))
+				temp_data = list(read_data)
+				data = temp_data[end-1] 
+				read_data = "".join(data)
+				read_data = int(read_data,2)
+				print read_data
+				return 'DATA: '+str(read_data)
 
-				else:
-					print ar[4]
-					st1 = (ar[4].strip('[]')).split(':')
-					start = 32 - int(st1[0])
-					end = 32 - int(st1[1])
-					print start, end
-					temp_data = list(read_data)
-					data = temp_data[start-1:end]
-					print data 
-					read_data = "".join(data)
-					read_data = int(read_data,2)
-					print read_data
-					return 'DATA: '+ str(read_data)
-		else:
-			return 'INVALID FIELD'
+			else:
+				# pdb.set_trace()
+				print ar[4]
+				st1 = (ar[4].strip('[]')).split(':')
+				start = 32 - int(st1[0])
+				end = 32 - int(st1[1])
+				print start, end
+				# data = list(bin(data).lstrip('0b'))
+				temp_data = list(read_data)
+				data = temp_data[start-1:end]
+				print data 
+				read_data = "".join(data)
+				read_data = int(read_data,2)
+				print read_data
+				return 'DATA: '+ str(read_data)
 
 
 def func_sub(num1, num2):
