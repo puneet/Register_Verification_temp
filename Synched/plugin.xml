@@ -19,9 +19,9 @@
 				<!-- <function name="py_write"/> -->
 				<!-- <function name='py_read'/> -->
 				<function name='py_exit'/>
-				<function name='py_regw'/>
-				<function name='py_regr'/>
-				<function name='py_sub'/>
+				<function name='py_write'/>
+				<function name='py_read'/>
+				<!-- <function name='py_sub'/> -->
 			</functions>
 		</service>
 	</services>

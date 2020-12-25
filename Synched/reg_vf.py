@@ -153,6 +153,26 @@ def get_field(cell_range):
 		ar.append(num)
 	return ar
 
+def get_fields(ar):	
+	field_ar = []
+	rw = n1+1
+	fg =True
+	while fg == True:
+		f_cell = s[m1,rw]
+		f_name = f_cell.get_value()
+		field_temp = []
+		f_name = f_name.lower()
+		if f_name[0:5] == 'field':
+			for v in range(m1,m2+1):
+				f_cell_temp = s[v,rw]
+				f_data = f_cell_temp.get_value()
+				field_temp.append(f_data)
+			field_ar.append(field_temp)	
+		else: 
+			fg = False
+		rw += 1
+	return field_ar
+
 def reg_write(cell_range):
 	ar = get_field(cell_range)
 	############################################################
@@ -160,27 +180,7 @@ def reg_write(cell_range):
 		return 'INVALID FIELD'
 	else:
 		if ar[0].lower()[0:8] == 'register':
-			field_ar = []
-			rw = n1+1
-			fg =True
-			while fg == True:
-				f_cell = s[m1,rw]
-				f_name = f_cell.get_value()
-				field_temp = []
-				if f_name == None:
-					fg = False
-					# return 'INVALID FILED'
-				else:
-					f_name = f_name.lower()
-					if f_name[0:5] == 'field':
-						for v in range(m1,m2+1):
-							f_cell_temp = s[v,rw]
-							f_data = f_cell_temp.get_value()
-							field_temp.append(f_data)
-						field_ar.append(field_temp)	
-					else: 
-						fg = False
-					rw += 1
+			field_ar = get_fields(ar)
 			a = 'RO' in str(field_ar)
 			if a == True:
 				return 'RO fields present, write to reg not permitted'
@@ -242,27 +242,9 @@ def reg_read(cell_range):
 	############################################################
 	if ar[0] == None:
 		return 'INVALID FIELD'
+	else:
 		if ar[0].lower()[0:8] == 'register':
-			field_ar = []
-			rw = n1+1
-			fg =True
-			while fg == True:
-				f_cell = s[m1,rw]
-				f_name = f_cell.get_value()
-				field_temp = []
-				if f_name == None:
-					fg = False
-				else:
-					f_name = f_name.lower()
-					if f_name[0:5] == 'field':
-						for v in range(m1,m2+1):
-							f_cell_temp = s[v,rw]
-							f_data = f_cell_temp.get_value()
-							field_temp.append(f_data)
-						field_ar.append(field_temp)	
-					else: 
-						fg = False
-					rw += 1
+			field_ar = get_fields(ar)
 			a = 'WO' in str(field_ar)
 			if a == True:
 				return 'WO fields present, reead from reg not permitted'
@@ -314,20 +296,12 @@ def reg_read(cell_range):
 		else:
 			return 'INVALID FIELD'
 
-
-def func_sub(num1, num2):
-	val = num1 - num2
-	print val
-	return num1 - num2
-
 # Translate the func_add python function to a gnumeric function and register it
 example_functions = {
     'py_exit':exit_sim,
-    'py_regw': reg_write,
-    'py_regr': reg_read,
-    'py_sub' : func_sub
+    'py_write': reg_write,
+    'py_read': reg_read
 }
-
 
  # RUN THIS BEFORE COMMITING TO GIT
  # rsync -avu /home/utk/.gnumeric/1.12.46/plugins/myfunc/* /home/utk/Intern_Project/Register_Verification/Synched/
